@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { AmplifyEventBus } from "aws-amplify-vue";
 export default {
   name: "HelloWorld",
   data() {
@@ -36,6 +37,11 @@ export default {
       password: "",
       errors: []
     };
+  },
+  created() {
+    AmplifyEventBus.$on("authState", info => {
+      console.log("Emitted event", info);
+    });
   },
   methods: {
     checkForm() {
