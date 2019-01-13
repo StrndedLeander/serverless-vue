@@ -1,5 +1,11 @@
 <template>
   <div class="hello container is-desktop">
+    <div class="callLambda">
+      <p>{{ lambdaMsg }}</p>
+      <p>
+        <button class="button is-success" @click="callLambda">Click</button>
+      </p>
+    </div>
     <div v-if="errors">
       <ul v-for="error in errors" :key="error.id">
         <li>
@@ -35,7 +41,8 @@ export default {
     return {
       email: "",
       password: "",
-      errors: []
+      errors: [],
+      lambdaMsg: "Click to call a lambda function"
     };
   },
   created() {
@@ -66,7 +73,14 @@ export default {
       }
       e.preventDefault();
     },
-    register() {}
+    register() {},
+    callLambda() {
+      fetch("/.netlify/functions/hello")
+        .then(r => r.json())
+        .then(json => {
+          this.lambdaMsg = json.msg;
+        });
+    }
   }
 };
 </script>
